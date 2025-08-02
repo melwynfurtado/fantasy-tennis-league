@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Participant: name, gender
+model Participant {
+  id        Int      @id @default(autoincrement())
+  name      String
+  gender    String
+  teams     Team[]
+  createdAt DateTime @default(now())
+}
+
+// Player: name, gender, seed
+model Player {
+  id        Int      @id @default(autoincrement())
+  name      String
+  gender    String
+  seed      Int?
+  teams     TeamPlayer[]
+  matchResults MatchResult[]
+  createdAt DateTime @default(now())
+}
+
+// Team: participant, 12 players (6 men, 6 women)
+model Team {
+  id             Int           @id @default(autoincrement())
+  participantId  Int
+  participant    Participant   @relation(fields: [participantId], references: [id])
+  teamPlayers    TeamPlayer[]
+  createdAt      DateTime      @default(now())
+}
+
+// TeamPlayer: join table for Team and Player
+model TeamPlayer {
+  id        Int    @id @default(autoincrement())
+  teamId    Int
+  playerId  Int
+  team      Team   @relation(fields: [teamId], references: [id])
+  player    Player @relation(fields: [playerId], references: [id])
+  role      String // seed-pool, non-seeded, outside-top-4, etc.
+}
+
+// MatchResult: player, round, score, points
+model MatchResult {
+  id        Int      @id @default(autoincrement())
+  playerId  Int
+  player    Player   @relation(fields: [playerId], references: [id])
+  round     Int
+  score     String
+  points    Int
+  createdAt DateTime @default(now())
+}
+
+model TeamScore {
+  id         Int      @id @default(autoincrement())
+  teamId     Int
+  round      Int
+  score      Int
+}
