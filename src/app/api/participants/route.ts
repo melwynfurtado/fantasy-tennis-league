@@ -3,12 +3,12 @@ import prisma from '@/lib/prisma';
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  const { name, gender } = data;
-  if (!name || !gender) {
-    return NextResponse.json({ error: 'Name and gender required' }, { status: 400 });
+  const { name, email } = data;
+  if (!name || !email) {
+    return NextResponse.json({ error: 'Name and email required' }, { status: 400 });
   }
   const participant = await prisma.participant.create({
-    data: { name, gender },
+    data: { name, email },
   });
   return NextResponse.json(participant);
 }
@@ -17,6 +17,25 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   const participants = await prisma.participant.findMany();
   return NextResponse.json(participants);
+}
+
+export async function PUT(req: NextRequest) {
+  const data = await req.json();
+  const { id, name, email } = data;
+  
+  if (!id || !name || !email) {
+    return NextResponse.json({ error: 'ID, name, and email required' }, { status: 400 });
+  }
+  
+  try {
+    const participant = await prisma.participant.update({
+      where: { id },
+      data: { name, email },
+    });
+    return NextResponse.json(participant);
+  } catch (error) {
+    return NextResponse.json({ error: 'Participant not found or could not be updated' }, { status: 404 });
+  }
 }
 
 export async function DELETE(req: NextRequest) {

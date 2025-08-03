@@ -187,6 +187,36 @@ export default function Home() {
                 </div>
               </Link>
 
+              <Link 
+                href="/admin" 
+                className="bg-white rounded-lg shadow hover:shadow-lg transition p-4 block group"
+              >
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-gray-200 transition">
+                    <span className="text-lg">🔧</span>
+                  </div>
+                  <div className="ml-3">
+                    <h3 className="font-semibold text-gray-800">Admin Panel</h3>
+                    <p className="text-sm text-gray-600">Manage league settings</p>
+                  </div>
+                </div>
+              </Link>
+
+              <Link 
+                href="/teams" 
+                className="bg-white rounded-lg shadow hover:shadow-lg transition p-4 block group"
+              >
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center group-hover:bg-indigo-200 transition">
+                    <span className="text-lg">👥</span>
+                  </div>
+                  <div className="ml-3">
+                    <h3 className="font-semibold text-gray-800">All Teams</h3>
+                    <p className="text-sm text-gray-600">View all fantasy teams</p>
+                  </div>
+                </div>
+              </Link>
+
               {/* Team Building Rules */}
               <div className="bg-gray-50 rounded-lg p-4 border">
                 <h3 className="font-semibold text-gray-800 mb-2">📋 Team Rules</h3>

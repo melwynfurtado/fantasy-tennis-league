@@ -41,3 +41,16 @@ export async function GET() {
   const results = await prisma.matchResult.findMany();
   return NextResponse.json(results);
 }
+
+export async function DELETE(req: NextRequest) {
+  const { id } = await req.json();
+  if (!id) {
+    return NextResponse.json({ error: 'Match result ID required' }, { status: 400 });
+  }
+  try {
+    await prisma.matchResult.delete({ where: { id } });
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    return NextResponse.json({ error: 'Match result not found or could not be deleted' }, { status: 404 });
+  }
+}

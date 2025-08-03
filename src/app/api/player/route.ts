@@ -6,6 +6,25 @@ export async function GET() {
   return NextResponse.json(players);
 }
 
+export async function PUT(req: NextRequest) {
+  const data = await req.json();
+  const { id, name, gender, seed } = data;
+  
+  if (!id || !name || !gender) {
+    return NextResponse.json({ error: 'ID, name, and gender required' }, { status: 400 });
+  }
+  
+  try {
+    const player = await prisma.player.update({
+      where: { id },
+      data: { name, gender, seed: seed || null },
+    });
+    return NextResponse.json(player);
+  } catch (error) {
+    return NextResponse.json({ error: 'Player not found or could not be updated' }, { status: 404 });
+  }
+}
+
 
 export async function POST(req: NextRequest) {
   const data = await req.json();

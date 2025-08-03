@@ -14,11 +14,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Participant: name, gender
+// Participant: name, email
 model Participant {
   id        Int      @id @default(autoincrement())
   name      String
-  gender    String
+  email     String
   teams     Team[]
   createdAt DateTime @default(now())
 }
@@ -38,7 +38,7 @@ model Player {
 model Team {
   id             Int           @id @default(autoincrement())
   participantId  Int
-  participant    Participant   @relation(fields: [participantId], references: [id])
+  participant    Participant   @relation(fields: [participantId], references: [id], onDelete: Cascade)
   teamPlayers    TeamPlayer[]
   createdAt      DateTime      @default(now())
 }
@@ -48,7 +48,7 @@ model TeamPlayer {
   id        Int    @id @default(autoincrement())
   teamId    Int
   playerId  Int
-  team      Team   @relation(fields: [teamId], references: [id])
+  team      Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
   player    Player @relation(fields: [playerId], references: [id])
   role      String // seed-pool, non-seeded, outside-top-4, etc.
 }

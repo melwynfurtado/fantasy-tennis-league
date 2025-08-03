@@ -25,7 +25,6 @@ export default function LeaderboardPage() {
     return {
       ...team,
       participantName: participant?.name || `Participant ${team.participantId}`,
-      participantGender: participant?.gender || 'Unknown'
     };
   }).sort((a: any, b: any) => b.total - a.total) || [];
 
@@ -87,7 +86,6 @@ export default function LeaderboardPage() {
                       <div className="text-2xl mb-2">{medals[index]}</div>
                       <div className="font-bold text-lg">{team.participantName}</div>
                       <div className="text-2xl font-bold text-gray-800">{team.total} pts</div>
-                      <div className="text-sm text-gray-600 capitalize">{team.participantGender}</div>
                     </div>
                   );
                 })}
@@ -132,7 +130,6 @@ export default function LeaderboardPage() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div>
                           <div className="text-sm font-medium text-gray-900">{team.participantName}</div>
-                          <div className="text-sm text-gray-500 capitalize">{team.participantGender}</div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right">
